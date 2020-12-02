@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/mine/DangoCreatures_plain.svg">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/mine/DangoCreatures_plain.svg">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="算法时间复杂度 排序算法 线性结构（链表、栈与队列） Java的泛型编程：在写类时用&lt;T&gt; &#x2F; &lt;E&gt; &#x2F; &lt;V&gt; &#x2F; ...表示一种数据类型，在实际编程时可替换为其它具体的数据类型（如Integer &#x2F; Double &#x2F; ...） 链表 Node节点类  节点类内置T类型的data变量；以及循环套用地定义了一个Node类型的next变量，表示下一">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Ponster&#39;s Blog">
+<meta property="og:url" content="http://example.com/2020/12/02/%E3%80%8A%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E3%80%8B%E8%AF%BE%E7%A8%8B%E7%AC%94%E8%AE%B0/index.html">
+<meta property="og:site_name" content="Ponster&#39;s Blog">
+<meta property="og:description" content="算法时间复杂度 排序算法 线性结构（链表、栈与队列） Java的泛型编程：在写类时用&lt;T&gt; &#x2F; &lt;E&gt; &#x2F; &lt;V&gt; &#x2F; ...表示一种数据类型，在实际编程时可替换为其它具体的数据类型（如Integer &#x2F; Double &#x2F; ...） 链表 Node节点类  节点类内置T类型的data变量；以及循环套用地定义了一个Node类型的next变量，表示下一">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/2020/12/02/medias/images/notes/p2.png">
+<meta property="og:image" content="http://example.com/2020/12/02/medias/images/notes/p3.png">
+<meta property="og:image" content="http://example.com/2020/12/02/medias/images/notes/p1.png">
+<meta property="article:published_time" content="2020-12-02T07:31:11.961Z">
+<meta property="article:modified_time" content="2020-12-02T16:44:15.090Z">
+<meta property="article:author" content="Ponster">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/2020/12/02/medias/images/notes/p2.png">
+
+<link rel="canonical" href="http://example.com/2020/12/02/%E3%80%8A%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E3%80%8B%E8%AF%BE%E7%A8%8B%E7%AC%94%E8%AE%B0/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title> | Ponster's Blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --></head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Ponster's Blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-schedule">
+
+    <a href="/schedule/" rel="section"><i class="fa fa-calendar fa-fw"></i>日程表</a>
+
+  </li>
+        <li class="menu-item menu-item-sitemap">
+
+    <a href="/sitemap.xml" rel="section"><i class="fa fa-sitemap fa-fw"></i>站点地图</a>
+
+  </li>
+        <li class="menu-item menu-item-commonweal">
+
+    <a href="/404/" rel="section"><i class="fa fa-heartbeat fa-fw"></i>公益 404</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2020/12/02/%E3%80%8A%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E3%80%8B%E8%AF%BE%E7%A8%8B%E7%AC%94%E8%AE%B0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/mine/Attack.png">
+      <meta itemprop="name" content="Ponster">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Ponster's Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-12-02 15:31:11" itemprop="dateCreated datePublished" datetime="2020-12-02T15:31:11+08:00">2020-12-02</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-12-03 00:44:15" itemprop="dateModified" datetime="2020-12-03T00:44:15+08:00">2020-12-03</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="算法时间复杂度">算法时间复杂度</h2>
+<h2 id="排序算法">排序算法</h2>
+<h2 id="线性结构链表栈与队列">线性结构（链表、栈与队列）</h2>
+<p><code>Java</code>的泛型编程：在写类时用<code>&lt;T&gt; / &lt;E&gt; / &lt;V&gt; / ...</code>表示一种数据类型，在实际编程时可替换为其它具体的数据类型（如<code>Integer / Double / ...</code>）</p>
+<h3 id="链表">链表</h3>
+<h4 id="node节点类"><code>Node</code>节点类</h4>
+<p><img src="../medias/images/notes/p2.png" /><br />
+节点类内置<code>T</code>类型的<code>data</code>变量；以及循环套用地定义了一个<code>Node</code>类型的<code>next</code>变量，表示下一个节点。<br />
+Constructor方法：传入<code>T</code>类型参数data, 为类内变量<code>data</code>赋值。 <code>Node</code>之间的连接方式如下图所示： <img src="../medias/images/notes/p3.png" /></p>
+<h4 id="链表往后递推的写法">链表往后递推的写法：</h4>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">Node&lt;T&gt; temp = head;</span><br><span class="line"><span class="comment">// Method1: </span></span><br><span class="line"><span class="keyword">while</span> (temp.getNext() != <span class="keyword">null</span>) &#123;</span><br><span class="line">    <span class="comment">// ... 对temp做操作， 如打印temp的值</span></span><br><span class="line">    temp = temp.getNext();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Method2: </span></span><br><span class="line"><span class="keyword">while</span> (temp != <span class="keyword">null</span>) &#123;</span><br><span class="line">    <span class="comment">// ... 对temp做操作， 如打印temp的值</span></span><br><span class="line">    temp = temp.getNext();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>第1种写法：可以在<code>while</code>循环内访问到从<code>head</code>到尾节点前一个节点；出循环后<code>temp</code>变为尾节点。<br />
+第2种写法：可以在<code>while</code>循环内访问到从<code>head</code>到尾节点；但出循环后<code>temp</code>变为<code>null</code>，无法进行下一步操作。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Method3: 专用于需要对父节点进行操作的方法</span></span><br><span class="line">Node&lt;T&gt; pare = <span class="keyword">null</span>;</span><br><span class="line">Node&lt;T&gt; temp = head;</span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; index; i++) &#123;</span><br><span class="line">    pare = temp;</span><br><span class="line">    temp = temp.getNext();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>第3种用法：同时定义<code>pare</code>、<code>temp</code>，将父节点与当前节点同时递推。每次循环中，父节点<code>pare</code>被赋值为当前节点，而当前节点<code>temp</code>则往后推一个节点。递推过后，<code>temp</code>表示位置为<code>index</code>的节点，而<code>pare</code>为<code>temp</code>的父节点。<br />
+在节点的删除、节点的插入方法中，由于需要访问当前节点父节点的信息，会用到这种递推方法。这与链表的特性有关：它容易获取一个节点后面的节点，但是难以访问它的父节点，故需要使用递推方法获得父节点。 #### 对节点的理解： 观察如下代码： <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">addFirst</span><span class="params">(T obj)</span> </span>&#123;</span><br><span class="line">	Node&lt;T&gt; temp = <span class="keyword">new</span> Node&lt;T&gt;(obj);</span><br><span class="line">	temp.setNext(head);</span><br><span class="line">	head = temp;</span><br><span class="line">	size++;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure> 这里的<code>temp</code>、<code>head</code>只是一个名字、一个符号，与储存节点信息的位置绑定在一起。如：通过刚刚定义的<code>temp</code>，就可以访问到<code>new Node&lt;T&gt;(obj)</code>的信息，从而改变这个节点的信息，比如使用<code>temp.setNext(head);</code>语句来将<code>temp</code>节点连接在<code>head</code>头节点前面。<br />
+而既然<code>temp</code>、<code>head</code>只是一个符号，它们就可以与别的节点绑定在一起。<code>head = temp;</code>语句就是将<code>head</code>节点与<code>temp</code>所绑定的这个节点绑定在一起。那么此时头节点往前移动一位，而<code>temp</code>与<code>head</code>此时指向的是同一个节点的位置。<br />
+再如在下面的小例子中，<code>temp</code>所指向的节点就不断被改变为当前节点后面的节点。 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">while</span> (temp.getNext() != <span class="keyword">null</span>)</span><br><span class="line">    temp = temp.getNext();</span><br></pre></td></tr></table></figure> Q: 如何删除一个节点：<br />
+A: 只要断开它与前/后节点的连接即可，<code>Java</code>虚拟机会自动回收未被利用的储存空间。 #### 链表结构及各种方法的实现 <img src="../medias/images/notes/p1.png" /></p>
+<h5 id="linkedlist-linkedlistt-constructor方法以及一个简单的tostring方法">LinkedList(), LinkedList(T[]) (constructor方法),以及一个简单的toString()方法</h5>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="title">LinkedList</span><span class="params">()</span> </span>&#123;&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 将传入的T类型数组转化为链表</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="title">LinkedList</span><span class="params">(T[] objs)</span></span>&#123;</span><br><span class="line">	<span class="keyword">for</span> (T obj : objs)</span><br><span class="line">		add(obj);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> String <span class="title">toString</span><span class="params">()</span> </span>&#123;</span><br><span class="line">	String res = <span class="string">&quot;[&quot;</span>;</span><br><span class="line">	<span class="keyword">if</span> (head == <span class="keyword">null</span>) <span class="keyword">return</span> res;</span><br><span class="line">	Node&lt;T&gt; temp = head;</span><br><span class="line">       <span class="comment">// 访问从头节点到尾节点前一个节点，并把它们的toString()方法整合</span></span><br><span class="line">	<span class="keyword">while</span>(temp.getNext() != <span class="keyword">null</span>) &#123;</span><br><span class="line">		res += temp.toString() + <span class="string">&quot;, &quot;</span>;</span><br><span class="line">		temp = temp.getNext();</span><br><span class="line">	&#125;</span><br><span class="line">       <span class="comment">// 输出结果</span></span><br><span class="line">	<span class="keyword">return</span> res.concat(temp.toString() + <span class="string">&quot;]&quot;</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>运行试验与结果： <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">    Integer[] intes = &#123;<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>, <span class="number">7</span>, <span class="number">8</span>, <span class="number">9</span>, <span class="number">10</span>, <span class="number">11</span>, <span class="number">12</span>&#125;;</span><br><span class="line">    LinkedList&lt;Integer&gt; list = <span class="keyword">new</span> LinkedList&lt;Integer&gt;(intes);</span><br><span class="line">    System.out.print(<span class="string">&quot;size: &quot;</span> + list.size + <span class="string">&quot;\n&quot;</span> + list.toString() + <span class="string">&quot;\n&quot;</span>);</span><br><span class="line"></span><br><span class="line">[OUTPUT]: size: <span class="number">12</span></span><br><span class="line">[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>, <span class="number">7</span>, <span class="number">8</span>, <span class="number">9</span>, <span class="number">10</span>, <span class="number">11</span>, <span class="number">12</span>]</span><br></pre></td></tr></table></figure></p>
+<h5 id="增加节点方法addaddfirstinsertint-t">增加节点方法<code>add()</code>、<code>addFirst()</code>、<code>insert(int, T)</code>：</h5>
+<p><code>add()</code>方法，在链表的尾部插入新节点:<br />
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">add</span><span class="params">(T obj)</span> </span>&#123;</span><br><span class="line">       <span class="comment">// 若队列未初始化，则将头节点实例化</span></span><br><span class="line">	<span class="keyword">if</span> (head == <span class="keyword">null</span>) head = <span class="keyword">new</span> Node&lt;T&gt;(obj);</span><br><span class="line">	<span class="keyword">else</span> &#123;</span><br><span class="line">		<span class="comment">// 定位到最后一个节点（next节点为null)</span></span><br><span class="line">		Node&lt;T&gt; temp = head;</span><br><span class="line">		<span class="keyword">while</span> (temp.getNext() != <span class="keyword">null</span>)</span><br><span class="line">			temp = temp.getNext();</span><br><span class="line">           <span class="comment">// 新建以传入的T型数据为data的节点，连接到最后一个节点后面</span></span><br><span class="line">		temp.setNext(<span class="keyword">new</span> Node&lt;T&gt;(obj));	</span><br><span class="line">	&#125;</span><br><span class="line">	size++;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>相关方法：<code>addFirst()</code>，在链表的头部插入新节点:<br />
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">addFirst</span><span class="params">(T obj)</span> </span>&#123;</span><br><span class="line">       <span class="comment">// 建立新节点</span></span><br><span class="line">	Node&lt;T&gt; temp = <span class="keyword">new</span> Node&lt;T&gt;(obj);</span><br><span class="line">	<span class="comment">// 新节点连接到头节点前面</span></span><br><span class="line">       temp.setNext(head);</span><br><span class="line">       <span class="comment">// 头节点变为新节点</span></span><br><span class="line">	head = temp;</span><br><span class="line">	size++;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>更高级的方法：<code>insert(int index, T data)</code>，在<code>index</code>位置插入新的节点 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 使用该方法后, index位置前的节点不变，index位置的节点变为储存着data的节点，而index后一个节点变为原先index位置节点</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">insert</span><span class="params">(<span class="keyword">int</span> index, T data)</span> </span>&#123;</span><br><span class="line">	<span class="keyword">if</span> (index &lt; <span class="number">0</span> || index &gt; size) <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">	<span class="keyword">if</span> (index == <span class="number">0</span>) addFirst(data);</span><br><span class="line">	<span class="keyword">else</span> &#123;</span><br><span class="line">		Node&lt;T&gt; temp = head;</span><br><span class="line">		<span class="comment">// 得到index前面的节点</span></span><br><span class="line">		<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; index - <span class="number">1</span>; i++)</span><br><span class="line">			temp = temp.getNext();</span><br><span class="line">		<span class="comment">// 储存index位置的节点</span></span><br><span class="line">		Node&lt;T&gt; indexNode = temp.getNext();</span><br><span class="line">		<span class="comment">// 在index节点与它前面一个节点之间插入新节点</span></span><br><span class="line">		temp.setNext(<span class="keyword">new</span> Node&lt;T&gt;(data));</span><br><span class="line">		temp.getNext().setNext(indexNode);</span><br><span class="line">	&#125;</span><br><span class="line">	size++;</span><br><span class="line">	<span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>运行试验与结果： <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">    list.add(<span class="keyword">new</span> Integer(<span class="number">13</span>));</span><br><span class="line">    System.out.print(<span class="string">&quot;size: &quot;</span> + list.size + <span class="string">&quot;\n&quot;</span> + list.toString() + <span class="string">&quot;\n&quot;</span>);</span><br><span class="line">    list.addFirst(<span class="keyword">new</span> Integer(<span class="number">0</span>));</span><br><span class="line">    System.out.print(<span class="string">&quot;size: &quot;</span> + list.size + <span class="string">&quot;\n&quot;</span> + list.toString() + <span class="string">&quot;\n&quot;</span>);</span><br><span class="line">    list.insert(<span class="number">0</span>, <span class="keyword">new</span> Integer(<span class="number">100</span>));</span><br><span class="line">    System.out.print(<span class="string">&quot;size: &quot;</span> + list.size + <span class="string">&quot;\n&quot;</span> + list.toString() + <span class="string">&quot;\n&quot;</span>);</span><br><span class="line">[OUTPUT]: size: <span class="number">13</span></span><br><span class="line">[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>, <span class="number">7</span>, <span class="number">8</span>, <span class="number">9</span>, <span class="number">10</span>, <span class="number">11</span>, <span class="number">12</span>, <span class="number">13</span>]</span><br><span class="line">size: <span class="number">14</span></span><br><span class="line">[<span class="number">0</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>, <span class="number">7</span>, <span class="number">8</span>, <span class="number">9</span>, <span class="number">10</span>, <span class="number">11</span>, <span class="number">12</span>, <span class="number">13</span>]</span><br><span class="line">size: <span class="number">15</span></span><br><span class="line">[<span class="number">100</span>, <span class="number">0</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>, <span class="number">7</span>, <span class="number">8</span>, <span class="number">9</span>, <span class="number">10</span>, <span class="number">11</span>, <span class="number">12</span>, <span class="number">13</span>]</span><br></pre></td></tr></table></figure></p>
+<h5 id="移除节点方法的三种写法removetbooleanremoveintvoidremoveint">移除节点方法的三种写法<code>remove(T)</code>、<code>(boolean)remove(int)</code>、<code>(void)remove(int)</code></h5>
+<p>Type I: <code>remove(T obj)</code>根据数据值来移除节点：<br />
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 根据data的值来删除节点</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">remove</span><span class="params">(T obj)</span> </span>&#123;</span><br><span class="line">       <span class="comment">// 父节点、子节点型定位</span></span><br><span class="line">	Node&lt;T&gt; pare = <span class="keyword">null</span>;</span><br><span class="line">	Node&lt;T&gt; temp = head;</span><br><span class="line">       <span class="comment">// 直到已经遍历了整个链表 或者 找到要删除的节点</span></span><br><span class="line">	<span class="keyword">while</span>(temp != <span class="keyword">null</span> &amp;&amp; !temp.getData().equals(obj)) &#123;<span class="comment">// 往后推移</span></span><br><span class="line">		pare = temp;</span><br><span class="line">		temp = temp.getNext();</span><br><span class="line">	&#125;</span><br><span class="line">       <span class="comment">// 若已经遍历了整个链表都没有找到要删除的节点</span></span><br><span class="line">	<span class="keyword">if</span> (temp == <span class="keyword">null</span>) <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">       <span class="comment">// 否则，若要移除的节点是头节点，直接改变head的指向即可</span></span><br><span class="line">	<span class="keyword">if</span> (temp == head) head = head.getNext();</span><br><span class="line">       <span class="comment">// 若要移除的节点是尾节点，将pare后续节点设为空，即pare变为最后一个节点</span></span><br><span class="line">	<span class="keyword">else</span> <span class="keyword">if</span> (temp.getNext() == <span class="keyword">null</span>) pare.setNext(<span class="keyword">null</span>);</span><br><span class="line">       <span class="comment">// 否则，让pare与temp的next节点相连即可</span></span><br><span class="line">	<span class="keyword">else</span> pare.setNext(temp.getNext());</span><br><span class="line">	size--;</span><br><span class="line">	<span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>Type II: <code>remove(int index)</code>根据位置来移除节点（<code>boolean</code>型方法）：<br />
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 根据节点的位置来删除节点</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">remove</span><span class="params">(<span class="keyword">int</span> index)</span> </span>&#123;</span><br><span class="line">       <span class="comment">// 若index输入超出链表大小/index小于0，移除失败</span></span><br><span class="line">	<span class="keyword">if</span> (index &lt; <span class="number">0</span> || index &gt;= size) <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">       <span class="comment">// 移除头街点的情况</span></span><br><span class="line">	<span class="keyword">if</span> (index == <span class="number">0</span>) head = head.getNext();</span><br><span class="line">	<span class="keyword">else</span> &#123;</span><br><span class="line">           <span class="comment">// 正常移除节点方法</span></span><br><span class="line">		Node&lt;T&gt; pare = <span class="keyword">null</span>;</span><br><span class="line">		Node&lt;T&gt; temp = head;</span><br><span class="line">		<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; index; i++) &#123;</span><br><span class="line">			pare = temp;</span><br><span class="line">			temp = temp.getNext();</span><br><span class="line">		&#125;</span><br><span class="line">		pare.setNext(temp.getNext());</span><br><span class="line">	&#125;</span><br><span class="line">	size--;</span><br><span class="line">	<span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>Type III: <code>remove(int index)</code>根据位置来移除节点（<code>void</code>方法）：<br />
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">   <span class="comment">// 该方法与上一方法不同之处在于：若index值超出范围，也可正常移除</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">remove_v2</span><span class="params">(<span class="keyword">int</span> index)</span> </span>&#123;</span><br><span class="line">       <span class="comment">// index &lt;= 0，移除头节点</span></span><br><span class="line">	<span class="keyword">if</span> (index &lt;= <span class="number">0</span>) removeFirst();</span><br><span class="line">       <span class="comment">// index &gt;= size, 即超出链表长度，移除最后一个节点</span></span><br><span class="line">	<span class="keyword">else</span> <span class="keyword">if</span> (index &gt;= size) removeLast();</span><br><span class="line">	<span class="keyword">else</span>&#123;</span><br><span class="line">           <span class="comment">// 否则，正常移除节点</span></span><br><span class="line">		Node&lt;T&gt; pare = <span class="keyword">null</span>;</span><br><span class="line">		Node&lt;T&gt; temp = head;</span><br><span class="line">		<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; index; i++) &#123;</span><br><span class="line">			pare = temp;</span><br><span class="line">			temp = temp.getNext();</span><br><span class="line">		&#125;</span><br><span class="line">		pare.setNext(temp.getNext());</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure> <code>removeFirst</code>方法，移除头节点：<br />
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">removeFirst</span><span class="params">()</span> </span>&#123;</span><br><span class="line">	head = head.getNext();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure> <code>removeLast()</code>方法，移除尾节点： <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">removeLast</span><span class="params">()</span> </span>&#123;</span><br><span class="line">	Node&lt;T&gt; pare = <span class="keyword">null</span>;</span><br><span class="line">	Node&lt;T&gt; temp = head;</span><br><span class="line">	<span class="keyword">while</span> (temp.getNext() != <span class="keyword">null</span>) &#123;</span><br><span class="line">		pare = temp;</span><br><span class="line">		temp = temp.getNext();</span><br><span class="line">	&#125;</span><br><span class="line">	pare.setNext(<span class="keyword">null</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>运行试验与结果： <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">    list.remove(<span class="keyword">new</span> Integer(<span class="number">1</span>));</span><br><span class="line">    System.out.print(<span class="string">&quot;size: &quot;</span> + list.size + <span class="string">&quot;\n&quot;</span> + list.toString() + <span class="string">&quot;\n&quot;</span>);</span><br><span class="line">    list.remove(<span class="number">11</span>);</span><br><span class="line">    System.out.print(<span class="string">&quot;size: &quot;</span> + list.size + <span class="string">&quot;\n&quot;</span> + list.toString() + <span class="string">&quot;\n&quot;</span>);</span><br><span class="line">    list.remove_v2(<span class="number">10</span>);</span><br><span class="line">    System.out.print(<span class="string">&quot;size: &quot;</span> + list.size + <span class="string">&quot;\n&quot;</span> + list.toString() + <span class="string">&quot;\n&quot;</span>);</span><br><span class="line">[OUTPUT]: size: <span class="number">14</span></span><br><span class="line">[<span class="number">100</span>, <span class="number">0</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>, <span class="number">7</span>, <span class="number">8</span>, <span class="number">9</span>, <span class="number">10</span>, <span class="number">11</span>, <span class="number">12</span>, <span class="number">13</span>]</span><br><span class="line">size: <span class="number">13</span></span><br><span class="line">[<span class="number">100</span>, <span class="number">0</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>, <span class="number">7</span>, <span class="number">8</span>, <span class="number">9</span>, <span class="number">10</span>, <span class="number">12</span>, <span class="number">13</span>]</span><br><span class="line">size: <span class="number">13</span></span><br><span class="line">[<span class="number">100</span>, <span class="number">0</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>, <span class="number">7</span>, <span class="number">8</span>, <span class="number">9</span>, <span class="number">12</span>, <span class="number">13</span>]</span><br></pre></td></tr></table></figure></p>
+<h4 id="完整代码">完整代码：</h4>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Node</span>&lt;<span class="title">T</span>&gt; </span>&#123;</span><br><span class="line">	<span class="keyword">private</span> T data;</span><br><span class="line">	<span class="keyword">private</span> Node&lt;T&gt; next;</span><br><span class="line">	</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="title">Node</span><span class="params">()</span> </span>&#123;&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="title">Node</span><span class="params">(T data)</span></span>&#123;</span><br><span class="line">		<span class="keyword">this</span>.data = data;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="function"><span class="keyword">public</span> T <span class="title">getData</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="keyword">return</span> data;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setData</span><span class="params">(T data)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">this</span>.data = data;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> Node&lt;T&gt; <span class="title">getNext</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="keyword">return</span> next;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setNext</span><span class="params">(Node&lt;T&gt; next)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">this</span>.next = next;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> String <span class="title">toString</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="keyword">return</span> data.toString();</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">LinkedList</span>&lt;<span class="title">T</span> <span class="keyword">extends</span> <span class="title">Comparable</span>&lt;<span class="title">T</span>&gt;&gt; </span>&#123;</span><br><span class="line">	<span class="keyword">protected</span> Node&lt;T&gt; head;</span><br><span class="line">	<span class="keyword">protected</span> <span class="keyword">int</span> size = <span class="number">0</span>; </span><br><span class="line">	</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="title">LinkedList</span><span class="params">()</span> </span>&#123;&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">// 将传入的T类型数组转化为链表</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="title">LinkedList</span><span class="params">(T[] objs)</span></span>&#123;</span><br><span class="line">		<span class="keyword">for</span> (T obj : objs)</span><br><span class="line">			add(obj);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">add</span><span class="params">(T obj)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">if</span> (head == <span class="keyword">null</span>) head = <span class="keyword">new</span> Node&lt;T&gt;(obj);</span><br><span class="line">		<span class="keyword">else</span> &#123;</span><br><span class="line">			<span class="comment">// 定位到最后一个节点（next节点为null)</span></span><br><span class="line">			Node&lt;T&gt; temp = head;</span><br><span class="line">			<span class="keyword">while</span> (temp.getNext() != <span class="keyword">null</span>)</span><br><span class="line">				temp = temp.getNext();</span><br><span class="line">			temp.setNext(<span class="keyword">new</span> Node&lt;T&gt;(obj));	</span><br><span class="line">		&#125;</span><br><span class="line">		size++;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">addFirst</span><span class="params">(T obj)</span> </span>&#123;</span><br><span class="line">		Node&lt;T&gt; temp = <span class="keyword">new</span> Node&lt;T&gt;(obj);</span><br><span class="line">		temp.setNext(head);</span><br><span class="line">		head = temp;</span><br><span class="line">		size++;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">isEmpty</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="keyword">return</span> size == <span class="number">0</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="function"><span class="keyword">public</span> String <span class="title">toString</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		String res = <span class="string">&quot;[&quot;</span>;</span><br><span class="line">		<span class="keyword">if</span> (head == <span class="keyword">null</span>) <span class="keyword">return</span> res;</span><br><span class="line">		Node&lt;T&gt; temp = head;</span><br><span class="line">		<span class="keyword">while</span>(temp.getNext() != <span class="keyword">null</span>) &#123;</span><br><span class="line">			res += temp.toString() + <span class="string">&quot;, &quot;</span>;</span><br><span class="line">			temp = temp.getNext();</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">return</span> res.concat(temp.toString() + <span class="string">&quot;]&quot;</span>);</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="comment">// 根据data的值来删除节点</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">remove</span><span class="params">(T obj)</span> </span>&#123;</span><br><span class="line">		Node&lt;T&gt; pare = <span class="keyword">null</span>;</span><br><span class="line">		Node&lt;T&gt; temp = head;</span><br><span class="line">		<span class="keyword">while</span>(temp != <span class="keyword">null</span> &amp;&amp; !temp.getData().equals(obj)) &#123;</span><br><span class="line">			pare = temp;</span><br><span class="line">			temp = temp.getNext();</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">if</span> (temp == <span class="keyword">null</span>) <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">		<span class="keyword">if</span> (temp == head) head = head.getNext();</span><br><span class="line">		<span class="keyword">else</span> <span class="keyword">if</span> (temp.getNext() == <span class="keyword">null</span>) pare.setNext(<span class="keyword">null</span>);</span><br><span class="line">		<span class="keyword">else</span> pare.setNext(temp.getNext());</span><br><span class="line">		size--;</span><br><span class="line">		<span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="comment">// 根据节点的位置来删除节点</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">remove</span><span class="params">(<span class="keyword">int</span> index)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">if</span> (index &lt; <span class="number">0</span> || index &gt;= size) <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">		<span class="keyword">if</span> (index == <span class="number">0</span>) head = head.getNext();</span><br><span class="line">		<span class="keyword">else</span> &#123;</span><br><span class="line">			Node&lt;T&gt; pare = <span class="keyword">null</span>;</span><br><span class="line">			Node&lt;T&gt; temp = head;</span><br><span class="line">			<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; index; i++) &#123;</span><br><span class="line">				pare = temp;</span><br><span class="line">				temp = temp.getNext();</span><br><span class="line">			&#125;</span><br><span class="line">			pare.setNext(temp.getNext());</span><br><span class="line">		&#125;</span><br><span class="line">		size--;</span><br><span class="line">		<span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">remove_v2</span><span class="params">(<span class="keyword">int</span> index)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">if</span> (index &lt;= <span class="number">0</span>) removeFirst();</span><br><span class="line">		<span class="keyword">else</span> <span class="keyword">if</span> (index &gt;= size) removeLast();</span><br><span class="line">		<span class="keyword">else</span>&#123;</span><br><span class="line">			Node&lt;T&gt; pare = <span class="keyword">null</span>;</span><br><span class="line">			Node&lt;T&gt; temp = head;</span><br><span class="line">			<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; index; i++) &#123;</span><br><span class="line">				pare = temp;</span><br><span class="line">				temp = temp.getNext();</span><br><span class="line">			&#125;</span><br><span class="line">			pare.setNext(temp.getNext());</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">removeFirst</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		head = head.getNext();</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">removeLast</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		Node&lt;T&gt; pare = <span class="keyword">null</span>;</span><br><span class="line">		Node&lt;T&gt; temp = head;</span><br><span class="line">		<span class="keyword">while</span> (temp.getNext() != <span class="keyword">null</span>) &#123;</span><br><span class="line">			pare = temp;</span><br><span class="line">			temp = temp.getNext();</span><br><span class="line">		&#125;</span><br><span class="line">		pare.setNext(<span class="keyword">null</span>);</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getSize</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="keyword">return</span> size;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="comment">// 使用该方法后, index位置前的节点不变，index位置的节点变为储存着data的节点，而index后一个节点变为原先index位置节点</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">insert</span><span class="params">(<span class="keyword">int</span> index, T data)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">if</span> (index &lt; <span class="number">0</span> || index &gt; size) <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">		<span class="keyword">if</span> (index == <span class="number">0</span>) addFirst(data);</span><br><span class="line">		<span class="keyword">else</span> &#123;</span><br><span class="line">			Node&lt;T&gt; temp = head;</span><br><span class="line">			<span class="comment">// 得到index前面的节点</span></span><br><span class="line">			<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; index - <span class="number">1</span>; i++)</span><br><span class="line">				temp = temp.getNext();</span><br><span class="line">			<span class="comment">// 储存index位置的节点</span></span><br><span class="line">			Node&lt;T&gt; indexNode = temp.getNext();</span><br><span class="line">			<span class="comment">// 在index节点与它前面一个节点之间插入新节点</span></span><br><span class="line">			temp.setNext(<span class="keyword">new</span> Node&lt;T&gt;(data));</span><br><span class="line">			temp.getNext().setNext(indexNode);</span><br><span class="line">		&#125;</span><br><span class="line">		size++;</span><br><span class="line">		<span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">		Integer[] intes = &#123;<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>, <span class="number">7</span>, <span class="number">8</span>, <span class="number">9</span>, <span class="number">10</span>, <span class="number">11</span>, <span class="number">12</span>&#125;;</span><br><span class="line">		LinkedList&lt;Integer&gt; list = <span class="keyword">new</span> LinkedList&lt;Integer&gt;(intes);</span><br><span class="line">		System.out.print(<span class="string">&quot;size: &quot;</span> + list.size + <span class="string">&quot;\n&quot;</span> + list.toString() + <span class="string">&quot;\n&quot;</span>);</span><br><span class="line">		list.add(<span class="keyword">new</span> Integer(<span class="number">13</span>));</span><br><span class="line">		System.out.print(<span class="string">&quot;size: &quot;</span> + list.size + <span class="string">&quot;\n&quot;</span> + list.toString() + <span class="string">&quot;\n&quot;</span>);</span><br><span class="line">		list.addFirst(<span class="keyword">new</span> Integer(<span class="number">0</span>));</span><br><span class="line">		System.out.print(<span class="string">&quot;size: &quot;</span> + list.size + <span class="string">&quot;\n&quot;</span> + list.toString() + <span class="string">&quot;\n&quot;</span>);</span><br><span class="line">		list.insert(<span class="number">13</span>, <span class="keyword">new</span> Integer(<span class="number">100</span>));</span><br><span class="line">		System.out.print(<span class="string">&quot;size: &quot;</span> + list.size + <span class="string">&quot;\n&quot;</span> + list.toString() + <span class="string">&quot;\n&quot;</span>);</span><br><span class="line">		list.remove(<span class="keyword">new</span> Integer(<span class="number">1</span>));</span><br><span class="line">		System.out.print(<span class="string">&quot;size: &quot;</span> + list.size + <span class="string">&quot;\n&quot;</span> + list.toString() + <span class="string">&quot;\n&quot;</span>);</span><br><span class="line">		list.remove(<span class="number">11</span>);</span><br><span class="line">		System.out.print(<span class="string">&quot;size: &quot;</span> + list.size + <span class="string">&quot;\n&quot;</span> + list.toString() + <span class="string">&quot;\n&quot;</span>);</span><br><span class="line">		list.remove_v2(<span class="number">10</span>);</span><br><span class="line">		System.out.print(<span class="string">&quot;size: &quot;</span> + list.size + <span class="string">&quot;\n&quot;</span> + list.toString() + <span class="string">&quot;\n&quot;</span>);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 运行结果：</span></span><br><span class="line">size: <span class="number">12</span></span><br><span class="line">[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>, <span class="number">7</span>, <span class="number">8</span>, <span class="number">9</span>, <span class="number">10</span>, <span class="number">11</span>, <span class="number">12</span>]</span><br><span class="line">size: <span class="number">13</span></span><br><span class="line">[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>, <span class="number">7</span>, <span class="number">8</span>, <span class="number">9</span>, <span class="number">10</span>, <span class="number">11</span>, <span class="number">12</span>, <span class="number">13</span>]</span><br><span class="line">size: <span class="number">14</span></span><br><span class="line">[<span class="number">0</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>, <span class="number">7</span>, <span class="number">8</span>, <span class="number">9</span>, <span class="number">10</span>, <span class="number">11</span>, <span class="number">12</span>, <span class="number">13</span>]</span><br><span class="line">size: <span class="number">15</span></span><br><span class="line">[<span class="number">0</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>, <span class="number">7</span>, <span class="number">8</span>, <span class="number">9</span>, <span class="number">10</span>, <span class="number">11</span>, <span class="number">12</span>, <span class="number">13</span>, <span class="number">100</span>]</span><br><span class="line">size: <span class="number">14</span></span><br><span class="line">[<span class="number">0</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>, <span class="number">7</span>, <span class="number">8</span>, <span class="number">9</span>, <span class="number">10</span>, <span class="number">11</span>, <span class="number">12</span>, <span class="number">13</span>, <span class="number">100</span>]</span><br><span class="line">size: <span class="number">13</span></span><br><span class="line">[<span class="number">0</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>, <span class="number">7</span>, <span class="number">8</span>, <span class="number">9</span>, <span class="number">10</span>, <span class="number">11</span>, <span class="number">13</span>, <span class="number">100</span>]</span><br><span class="line">size: <span class="number">13</span></span><br><span class="line">[<span class="number">0</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>, <span class="number">7</span>, <span class="number">8</span>, <span class="number">9</span>, <span class="number">10</span>, <span class="number">13</span>, <span class="number">100</span>]</span><br></pre></td></tr></table></figure>
+<h2 id="非线性结构树图">非线性结构（树、图）</h2>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/11/28/manim_wave/" rel="prev" title="【Manim】 绘制音乐波形图">
+      <i class="fa fa-chevron-left"></i> 【Manim】 绘制音乐波形图
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/12/03/%E3%80%8A%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E3%80%8B%E8%AF%BE%E7%A8%8B%E7%AC%94%E8%AE%B0/%E7%BB%93%E6%9E%84/" rel="next" title="">
+       <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AE%97%E6%B3%95%E6%97%B6%E9%97%B4%E5%A4%8D%E6%9D%82%E5%BA%A6"><span class="nav-number">1.</span> <span class="nav-text">算法时间复杂度</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95"><span class="nav-number">2.</span> <span class="nav-text">排序算法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BA%BF%E6%80%A7%E7%BB%93%E6%9E%84%E9%93%BE%E8%A1%A8%E6%A0%88%E4%B8%8E%E9%98%9F%E5%88%97"><span class="nav-number">3.</span> <span class="nav-text">线性结构（链表、栈与队列）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%93%BE%E8%A1%A8"><span class="nav-number">3.1.</span> <span class="nav-text">链表</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#node%E8%8A%82%E7%82%B9%E7%B1%BB"><span class="nav-number">3.1.1.</span> <span class="nav-text">Node节点类</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%93%BE%E8%A1%A8%E5%BE%80%E5%90%8E%E9%80%92%E6%8E%A8%E7%9A%84%E5%86%99%E6%B3%95"><span class="nav-number">3.1.2.</span> <span class="nav-text">链表往后递推的写法：</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#linkedlist-linkedlistt-constructor%E6%96%B9%E6%B3%95%E4%BB%A5%E5%8F%8A%E4%B8%80%E4%B8%AA%E7%AE%80%E5%8D%95%E7%9A%84tostring%E6%96%B9%E6%B3%95"><span class="nav-number">3.1.2.1.</span> <span class="nav-text">LinkedList(), LinkedList(T[]) (constructor方法),以及一个简单的toString()方法</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%A2%9E%E5%8A%A0%E8%8A%82%E7%82%B9%E6%96%B9%E6%B3%95addaddfirstinsertint-t"><span class="nav-number">3.1.2.2.</span> <span class="nav-text">增加节点方法add()、addFirst()、insert(int, T)：</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E7%A7%BB%E9%99%A4%E8%8A%82%E7%82%B9%E6%96%B9%E6%B3%95%E7%9A%84%E4%B8%89%E7%A7%8D%E5%86%99%E6%B3%95removetbooleanremoveintvoidremoveint"><span class="nav-number">3.1.2.3.</span> <span class="nav-text">移除节点方法的三种写法remove(T)、(boolean)remove(int)、(void)remove(int)</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AE%8C%E6%95%B4%E4%BB%A3%E7%A0%81"><span class="nav-number">3.1.3.</span> <span class="nav-text">完整代码：</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%9D%9E%E7%BA%BF%E6%80%A7%E7%BB%93%E6%9E%84%E6%A0%91%E5%9B%BE"><span class="nav-number">4.</span> <span class="nav-text">非线性结构（树、图）</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Ponster"
+      src="/images/mine/Attack.png">
+  <p class="site-author-name" itemprop="name">Ponster</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">7</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Ponster</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  
+  <script color='0,0,255' opacity='0.5' zIndex='-1' count='99' src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+</body>
+</html>
